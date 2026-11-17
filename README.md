@@ -28,7 +28,7 @@ sent to the service (up to 100 MB per file; pass larger scenes as an https link 
 |---|---|---|
 | Render preview | 1-4 frames in seconds, with a review (verdict, issues, bpy fixes) and the images | free up to 2 GPU-minutes a day |
 | Estimate render | GPU time, wait and price of a final before starting it | none |
-| Render final | Final frames or video (PNG, EXR, MP4, WebM, ProRes, GIF, WebP); `max_yen` caps the cost (0 = free time only) | yes |
+| Render final | Final frames or video (PNG, EXR, MP4, WebM, ProRes, GIF, WebP); `max_yen` caps the cost (0 = free time only); it is set in the tool settings by the app builder, not by the model | yes |
 | Render status | Status of a job; image / video links when done | none |
 | Download results | The result images and videos as Dify files | none |
 | Cancel render | Stop a queued or running job | none |

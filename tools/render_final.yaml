@@ -10,7 +10,7 @@ description:
     en_US: 'Render the final frames or video (PNG / EXR / MP4). Uses GPU time: estimate and confirm first.'
     zh_Hans: 渲染最终的帧或视频（PNG / EXR / MP4）。会消耗 GPU 时间：请先估算并确认。
   llm: 'Start the final render (frames or MP4) on cloud GPUs. Only after the user has seen a preview and agreed
-    to the estimate from render_estimate. max_yen caps the cost: 0 (default) renders only if it fits the free GPU
+    to the estimate from render_estimate. max_yen (set by the app builder) caps the cost: 0 (default) renders only if it fits the free GPU
     time. Returns a job_id; long renders keep running after this call: check with render_status.'
 parameters:
 - name: scene_file
@@ -300,10 +300,10 @@ parameters:
     en_US: Max cost (JPY)
     zh_Hans: 费用上限（日元）
   human_description:
-    en_US: The most this render may cost in JPY. 0 = only if it fits the free GPU time.
+    en_US: The most this render may cost in JPY, set by the app builder (an agent cannot change it). 0 = only if it fits the free GPU time.
     zh_Hans: 费用上限（日元）
-  llm_description: The most this render may cost in JPY. 0 = only if it fits the free GPU time.
-  form: llm
+  llm_description: The most this render may cost in JPY, set by the app builder (an agent cannot change it). 0 = only if it fits the free GPU time.
+  form: form
   default: 0
 - name: wait_seconds
   type: number

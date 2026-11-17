@@ -12,6 +12,8 @@ description:
   ja_JP: Blender のシーンや 3D モデル（GLB、FBX、USD、OBJ、STL）をクラウド GPU でレンダリングします。数秒でプレビューと講評・bpy の修正案、確認後に本番フレームや MP4。手元の GPU や Blender は不要です。
 icon: icon.png
 created_at: "2026-11-17T00:00:00Z"
+repo: https://github.com/freeman745/janction-render-dify
+contact: contact@jasmylab.com
 privacy: PRIVACY.md
 tags:
   - design
@@ -23,6 +25,9 @@ resource:
     storage:
       enabled: true
       size: 1024
+network:
+  domains:
+    - render.janction.jp
 plugins:
   tools:
     - provider/janction_render.yaml
