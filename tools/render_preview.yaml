@@ -1,0 +1,224 @@
+identity:
+  name: render_preview
+  author: jasmylab
+  label:
+    en_US: Render preview
+    zh_Hans: 渲染预览
+    ja_JP: プレビュー
+description:
+  human:
+    en_US: Render 1-4 frames in seconds and get the images with a review of what is wrong and bpy code to fix it.
+    zh_Hans: 几秒内渲染 1~4 帧，返回图片，并指出问题、附带 bpy 修复代码。
+  llm: 'Render a quick preview (1-4 frames, 1280x720) of a Blender scene or 3D model on cloud GPUs. Always preview
+    before render_final. The answer has the image links and a review (verdict, issues and bpy fix code): fix the
+    scene and preview again if needed. Previews are free up to 2 GPU-minutes a day.'
+parameters:
+- name: scene_file
+  type: file
+  required: false
+  label:
+    en_US: Scene file
+    zh_Hans: 场景文件
+  human_description:
+    en_US: A .blend, a Blender Python script or a 3D file (GLB, FBX, USD, OBJ, STL...), up to 100 MB.
+    zh_Hans: Blender 文件（.blend）、Blender Python 脚本或 3D 文件（GLB、FBX、USD、OBJ、STL 等），最大 100 MB。
+  llm_description: 'The scene to render: a .blend, a Blender Python script (.py) or a 3D file (GLB, glTF, FBX, USD,
+    OBJ, STL, PLY, Alembic), up to 100 MB. Give this, or scene_id, scene_url or scene_script.'
+  form: llm
+- name: scene_id
+  type: string
+  required: false
+  label:
+    en_US: Scene ID
+    zh_Hans: 场景 ID
+  human_description:
+    en_US: The scene_id of an earlier job, to render the same scene again.
+    zh_Hans: 之前任务的 scene_id，用来再次渲染同一个场景。
+  llm_description: scene_id from an earlier job (f_...), to render the same scene again without sending it.
+  form: llm
+- name: scene_url
+  type: string
+  required: false
+  label:
+    en_US: Scene URL
+    zh_Hans: 场景链接
+  human_description:
+    en_US: An https link to a .blend, .py or 3D file.
+    zh_Hans: 指向 .blend、.py 或 3D 文件的 https 链接。
+  llm_description: An https link to a .blend, .py or 3D file (use this for files over 100 MB).
+  form: llm
+- name: scene_script
+  type: string
+  required: false
+  label:
+    en_US: Scene script (bpy)
+    zh_Hans: 场景脚本（bpy）
+  human_description:
+    en_US: Blender Python (bpy) code that builds the scene.
+    zh_Hans: 用 Blender Python（bpy）代码搭建场景。
+  llm_description: 'The scene as Blender 5 Python (bpy) code that builds it from an empty file: objects, materials,
+    lights and a camera. Used when no file, scene_id or scene_url is given.'
+  form: llm
+- name: asset_urls
+  type: string
+  required: false
+  label:
+    en_US: Asset URLs
+    zh_Hans: 素材链接
+  human_description:
+    en_US: 'Extra files for the script, comma separated: https links or polyhaven:<id>.'
+    zh_Hans: 脚本要用的额外文件，用逗号分隔：https 链接或 polyhaven:<id>。
+  llm_description: 'Extra files for scene_script / scene_url, comma separated: https links or ''polyhaven:<id>''
+    CC0 assets from asset_search (load them in the script with jr_assets).'
+  form: llm
+- name: frames
+  type: string
+  required: false
+  label:
+    en_US: Frames
+    zh_Hans: 帧
+  human_description:
+    en_US: '1 to 4 frame numbers to preview, comma separated, e.g. 1, 60, 120 (default: the first frame).'
+    zh_Hans: 帧
+  llm_description: '1 to 4 frame numbers to preview, comma separated, e.g. 1, 60, 120 (default: the first frame).'
+  form: llm
+- name: preset
+  type: select
+  required: false
+  label:
+    en_US: Preset
+    zh_Hans: 预设
+  human_description:
+    en_US: product = studio product shots, turntable = 360-degree turntable, animation = the scene's own frame range.
+    zh_Hans: 预设
+  llm_description: product = studio product shots, turntable = 360-degree turntable, animation = the scene's own
+    frame range.
+  form: llm
+  options:
+  - value: none
+    label:
+      en_US: None
+      zh_Hans: 无
+  - value: product
+    label:
+      en_US: Product shots
+      zh_Hans: 产品棚拍
+  - value: turntable
+    label:
+      en_US: 360° turntable
+      zh_Hans: 360 度转台
+  - value: animation
+    label:
+      en_US: Animation
+      zh_Hans: 动画
+- name: orbit
+  type: boolean
+  required: false
+  label:
+    en_US: Orbit views
+    zh_Hans: 环绕视角
+  human_description:
+    en_US: Preview the subject from 4 angles around it with an automatic camera.
+    zh_Hans: 环绕视角
+  llm_description: Preview the subject from 4 angles around it with an automatic camera.
+  form: llm
+- name: environment
+  type: select
+  required: false
+  label:
+    en_US: Lighting
+    zh_Hans: 环境光
+  human_description:
+    en_US: 'Add HDRI lighting: studio, sunset, overcast or night; compare renders the four side by side (preview).'
+    zh_Hans: 环境光
+  llm_description: 'Add HDRI lighting: studio, sunset, overcast or night; compare renders the four side by side
+    (preview).'
+  form: llm
+  options:
+  - value: none
+    label:
+      en_US: Scene's own
+      zh_Hans: 场景自带
+  - value: studio
+    label:
+      en_US: Studio
+      zh_Hans: 影棚
+  - value: sunset
+    label:
+      en_US: Sunset
+      zh_Hans: 日落
+  - value: overcast
+    label:
+      en_US: Overcast
+      zh_Hans: 阴天
+  - value: night
+    label:
+      en_US: Night
+      zh_Hans: 夜晚
+  - value: compare
+    label:
+      en_US: Compare all
+      zh_Hans: 全部对比
+- name: engine
+  type: select
+  required: false
+  label:
+    en_US: Engine
+    zh_Hans: 渲染引擎
+  human_description:
+    en_US: cycles (default, path tracing) or eevee (faster, real time).
+    zh_Hans: 渲染引擎
+  llm_description: cycles (default, path tracing) or eevee (faster, real time).
+  form: llm
+  options:
+  - value: none
+    label:
+      en_US: Default
+      zh_Hans: 默认
+  - value: cycles
+    label:
+      en_US: Cycles
+      zh_Hans: Cycles
+  - value: eevee
+    label:
+      en_US: EEVEE
+      zh_Hans: EEVEE
+- name: camera
+  type: string
+  required: false
+  label:
+    en_US: Camera
+    zh_Hans: 相机
+  human_description:
+    en_US: 'Name of the camera object to render from (default: the scene camera).'
+    zh_Hans: 相机
+  llm_description: 'Name of the camera object to render from (default: the scene camera).'
+  form: llm
+- name: transparent
+  type: boolean
+  required: false
+  label:
+    en_US: Transparent background
+    zh_Hans: 透明背景
+  human_description:
+    en_US: Render with a transparent background (PNG with alpha).
+    zh_Hans: 透明背景
+  llm_description: Render with a transparent background (PNG with alpha).
+  form: llm
+- name: wait_seconds
+  type: number
+  required: false
+  label:
+    en_US: Wait (seconds)
+    zh_Hans: 等待（秒）
+  human_description:
+    en_US: How long to wait for the job before returning (0-200). If it is not done by then, call render_status
+      with the job_id.
+    zh_Hans: 等待（秒）
+  llm_description: How long to wait for the job before returning (0-200). If it is not done by then, call render_status
+    with the job_id.
+  form: llm
+  default: 90
+extra:
+  python:
+    source: tools/render_preview.py

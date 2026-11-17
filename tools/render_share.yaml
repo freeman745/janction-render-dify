@@ -1,0 +1,61 @@
+identity:
+  name: render_share
+  author: jasmylab
+  label:
+    en_US: Share render
+    zh_Hans: 分享渲染结果
+    ja_JP: 共有
+description:
+  human:
+    en_US: Publish a finished render as a public page.
+    zh_Hans: 把已完成的渲染结果发布成公开页面。
+  llm: Publish a finished render as a public page and return its url. Only when the user asks to share.
+parameters:
+- name: job_id
+  type: string
+  required: true
+  label:
+    en_US: Job ID
+    zh_Hans: 任务 ID
+  human_description:
+    en_US: The job_id returned by render_preview or render_final (j_... or b_...).
+    zh_Hans: 任务 ID
+  llm_description: The job_id returned by render_preview or render_final (j_... or b_...).
+  form: llm
+- name: title
+  type: string
+  required: false
+  label:
+    en_US: Title
+    zh_Hans: 标题
+  human_description:
+    en_US: Title of the page.
+    zh_Hans: 标题
+  llm_description: Title of the page.
+  form: llm
+- name: note
+  type: string
+  required: false
+  label:
+    en_US: Note
+    zh_Hans: 说明
+  human_description:
+    en_US: A short note shown on the page.
+    zh_Hans: 说明
+  llm_description: A short note shown on the page.
+  form: llm
+- name: listed
+  type: boolean
+  required: false
+  label:
+    en_US: Listed in the gallery
+    zh_Hans: 在作品集中展示
+  human_description:
+    en_US: 'Also list it in the public gallery (default: only people with the link).'
+    zh_Hans: 在作品集中展示
+  llm_description: 'Also list it in the public gallery (default: only people with the link).'
+  form: llm
+  default: false
+extra:
+  python:
+    source: tools/render_share.py

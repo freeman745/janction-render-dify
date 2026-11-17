@@ -1,0 +1,27 @@
+identity:
+  name: render_unshare
+  author: jasmylab
+  label:
+    en_US: Unshare render
+    zh_Hans: 取消分享
+    ja_JP: 共有を取り消す
+description:
+  human:
+    en_US: Take down a page made with Share render.
+    zh_Hans: 撤下分享出去的页面。
+  llm: Take down the public page made with render_share.
+parameters:
+- name: job_id
+  type: string
+  required: true
+  label:
+    en_US: Job ID
+    zh_Hans: 任务 ID
+  human_description:
+    en_US: The job_id returned by render_preview or render_final (j_... or b_...).
+    zh_Hans: 任务 ID
+  llm_description: The job_id returned by render_preview or render_final (j_... or b_...).
+  form: llm
+extra:
+  python:
+    source: tools/render_unshare.py

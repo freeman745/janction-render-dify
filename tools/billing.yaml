@@ -1,0 +1,17 @@
+identity:
+  name: billing
+  author: jasmylab
+  label:
+    en_US: Credit and usage
+    zh_Hans: 余额和用量
+    ja_JP: 残高と利用量
+description:
+  human:
+    en_US: Free GPU time left, balance, limits and how to top up.
+    zh_Hans: 剩余免费 GPU 时间、余额、限制和充值方式。
+  llm: This key's free GPU time left, balance in JPY, limits and usage, plus links to save a card (adds free time,
+    no charge) or top up. Costs nothing.
+parameters: []
+extra:
+  python:
+    source: tools/billing.py

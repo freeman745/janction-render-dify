@@ -1,0 +1,50 @@
+identity:
+  author: jasmylab
+  name: janction_render
+  label:
+    en_US: JANCTION Render
+    zh_Hans: JANCTION Render
+    ja_JP: JANCTION Render
+  description:
+    en_US: Render Blender scenes and 3D models on cloud GPUs. Preview first, estimate, then final frames or MP4.
+    zh_Hans: 在云端 GPU 上渲染 Blender 场景和 3D 模型。先预览、再估算，然后渲染成片或 MP4。
+    ja_JP: Blender のシーンや 3D モデルをクラウド GPU でレンダリング。プレビュー、見積もり、本番フレームや MP4。
+  icon: icon.png
+  tags:
+    - design
+    - image
+    - videos
+credentials_for_provider:
+  api_key:
+    type: secret-input
+    required: false
+    label:
+      en_US: API key
+      zh_Hans: API 密钥
+      ja_JP: API キー
+    placeholder:
+      en_US: jr_...
+      zh_Hans: jr_...
+      ja_JP: jr_...
+    help:
+      en_US: "Optional. Leave it empty and the plugin gets a free key for this workspace on first use (no sign-up; it starts with free GPU time). Enter a key only to use one you already have (jr_...)."
+      zh_Hans: 选填。留空的话，插件第一次使用时会自动为这个工作空间领取免费密钥（无需注册，附带免费 GPU 时间）。只有想用自己已有的密钥（jr_...）时才需要填写。
+      ja_JP: 任意。空欄なら、初めて使うときにこのワークスペース用の無料キーを自動で取得します（登録不要、無料の GPU 時間付き）。手持ちのキー（jr_...）を使う場合だけ入力してください。
+    url: https://render.janction.jp/blender-render-api?src=dify
+tools:
+  - tools/render_preview.yaml
+  - tools/render_estimate.yaml
+  - tools/render_final.yaml
+  - tools/render_status.yaml
+  - tools/render_download.yaml
+  - tools/render_cancel.yaml
+  - tools/scene_info.yaml
+  - tools/list_jobs.yaml
+  - tools/asset_search.yaml
+  - tools/render_share.yaml
+  - tools/render_unshare.yaml
+  - tools/billing.yaml
+  - tools/service_status.yaml
+extra:
+  python:
+    source: provider/janction_render.py

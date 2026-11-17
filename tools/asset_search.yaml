@@ -1,0 +1,56 @@
+identity:
+  name: asset_search
+  author: jasmylab
+  label:
+    en_US: Search 3D assets
+    zh_Hans: 搜索 3D 素材
+    ja_JP: 素材検索
+description:
+  human:
+    en_US: Find free CC0 models, textures or HDRIs (Poly Haven) to use in a scene script.
+    zh_Hans: 搜索免费的 CC0 模型、贴图或 HDRI（Poly Haven），供场景脚本使用。
+  llm: Find free CC0 models, textures or HDRIs on Poly Haven by words. Pass 'polyhaven:<id>' in asset_urls of a
+    render and load them in scene_script with jr_assets.
+parameters:
+- name: query
+  type: string
+  required: true
+  label:
+    en_US: Search words
+    zh_Hans: 搜索词
+  human_description:
+    en_US: What to look for, in English, e.g. 'wooden chair'.
+    zh_Hans: 搜索词
+  llm_description: What to look for, in English, e.g. 'wooden chair'.
+  form: llm
+- name: kind
+  type: select
+  required: false
+  label:
+    en_US: Kind
+    zh_Hans: 类型
+  human_description:
+    en_US: 'models, textures or hdris (default: all).'
+    zh_Hans: 类型
+  llm_description: 'models, textures or hdris (default: all).'
+  form: llm
+  options:
+  - value: all
+    label:
+      en_US: All
+      zh_Hans: 全部
+  - value: models
+    label:
+      en_US: Models
+      zh_Hans: 模型
+  - value: textures
+    label:
+      en_US: Textures
+      zh_Hans: 贴图
+  - value: hdris
+    label:
+      en_US: HDRIs
+      zh_Hans: HDRI
+extra:
+  python:
+    source: tools/asset_search.py

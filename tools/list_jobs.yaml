@@ -1,0 +1,28 @@
+identity:
+  name: list_jobs
+  author: jasmylab
+  label:
+    en_US: Recent jobs
+    zh_Hans: 最近的任务
+    ja_JP: 最近のジョブ
+description:
+  human:
+    en_US: This key's recent jobs and the scenes still kept.
+    zh_Hans: 这个密钥最近的任务和仍保留的场景。
+  llm: This key's recent jobs and the scene_ids still kept, to continue earlier work.
+parameters:
+- name: limit
+  type: number
+  required: false
+  label:
+    en_US: How many
+    zh_Hans: 数量
+  human_description:
+    en_US: How many recent jobs to list (default 10).
+    zh_Hans: 数量
+  llm_description: How many recent jobs to list (default 10).
+  form: llm
+  default: 10
+extra:
+  python:
+    source: tools/list_jobs.py

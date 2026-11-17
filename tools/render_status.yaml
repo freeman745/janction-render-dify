@@ -1,0 +1,40 @@
+identity:
+  name: render_status
+  author: jasmylab
+  label:
+    en_US: Render status
+    zh_Hans: 渲染状态
+    ja_JP: 状態
+description:
+  human:
+    en_US: Status of a render job, and the result links when it is done.
+    zh_Hans: 查看渲染任务的状态，完成后返回结果链接。
+  llm: Status of a render job (queued, running, done, failed) with the expected time; when done, the image or video
+    links (valid about 24 hours) and the review. Poll every 10-20 seconds while it runs.
+parameters:
+- name: job_id
+  type: string
+  required: true
+  label:
+    en_US: Job ID
+    zh_Hans: 任务 ID
+  human_description:
+    en_US: The job_id returned by render_preview or render_final (j_... or b_...).
+    zh_Hans: 任务 ID
+  llm_description: The job_id returned by render_preview or render_final (j_... or b_...).
+  form: llm
+- name: wait_seconds
+  type: number
+  required: false
+  label:
+    en_US: Wait (seconds)
+    zh_Hans: 等待（秒）
+  human_description:
+    en_US: How long to wait for the job before returning (0-200). 0 = answer at once.
+    zh_Hans: 等待（秒）
+  llm_description: How long to wait for the job before returning (0-200). 0 = answer at once.
+  form: llm
+  default: 0
+extra:
+  python:
+    source: tools/render_status.py

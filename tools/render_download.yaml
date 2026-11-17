@@ -1,0 +1,39 @@
+identity:
+  name: render_download
+  author: jasmylab
+  label:
+    en_US: Download results
+    zh_Hans: 下载结果
+    ja_JP: 結果を取得
+description:
+  human:
+    en_US: Get the files of a finished job as Dify files (images, videos).
+    zh_Hans: 把已完成任务的文件（图片、视频）作为 Dify 文件返回。
+  llm: Return the result files of a finished job as files (images and videos up to 50 MB; larger files and other
+    kinds as links). Use this when the files are needed in the workflow, not only links.
+parameters:
+- name: job_id
+  type: string
+  required: true
+  label:
+    en_US: Job ID
+    zh_Hans: 任务 ID
+  human_description:
+    en_US: The job_id returned by render_preview or render_final (j_... or b_...).
+    zh_Hans: 任务 ID
+  llm_description: The job_id returned by render_preview or render_final (j_... or b_...).
+  form: llm
+- name: only
+  type: string
+  required: false
+  label:
+    en_US: Only
+    zh_Hans: 只要
+  human_description:
+    en_US: 'Only files whose name contains this text, e.g. mp4 or frame_0001 (default: all images and videos).'
+    zh_Hans: 只要
+  llm_description: 'Only files whose name contains this text, e.g. mp4 or frame_0001 (default: all images and videos).'
+  form: llm
+extra:
+  python:
+    source: tools/render_download.py

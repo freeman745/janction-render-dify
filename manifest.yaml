@@ -1,0 +1,38 @@
+version: 0.1.0
+type: plugin
+author: jasmylab
+name: janction_render
+label:
+  en_US: JANCTION Render
+  zh_Hans: JANCTION Render
+  ja_JP: JANCTION Render
+description:
+  en_US: Render Blender scenes and 3D models (GLB, FBX, USD, OBJ, STL) on cloud GPUs. A preview in seconds with a review and bpy fixes, then final frames or MP4. No local GPU or Blender.
+  zh_Hans: 在云端 GPU 上渲染 Blender 场景和 3D 模型（GLB、FBX、USD、OBJ、STL）。几秒出预览，附带问题点评和 bpy 修复代码；确认后渲染成片或 MP4。无需本地 GPU 和 Blender。
+  ja_JP: Blender のシーンや 3D モデル（GLB、FBX、USD、OBJ、STL）をクラウド GPU でレンダリングします。数秒でプレビューと講評・bpy の修正案、確認後に本番フレームや MP4。手元の GPU や Blender は不要です。
+icon: icon.png
+created_at: "2026-11-17T00:00:00Z"
+privacy: PRIVACY.md
+tags:
+  - design
+  - image
+  - videos
+resource:
+  memory: 268435456
+  permission:
+    storage:
+      enabled: true
+      size: 1024
+plugins:
+  tools:
+    - provider/janction_render.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: 1.0.0

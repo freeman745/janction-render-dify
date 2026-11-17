@@ -1,0 +1,16 @@
+identity:
+  name: service_status
+  author: jasmylab
+  label:
+    en_US: Service status
+    zh_Hans: 服务状态
+    ja_JP: サービス状態
+description:
+  human:
+    en_US: Whether the GPUs are online, the queue and the expected wait.
+    zh_Hans: GPU 是否在线、排队情况和预计等待时间。
+  llm: Whether the GPU workers are online, the queue, the expected wait, supported inputs and Blender versions.
+parameters: []
+extra:
+  python:
+    source: tools/service_status.py
