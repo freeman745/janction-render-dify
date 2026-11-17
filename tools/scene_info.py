@@ -21,3 +21,4 @@ class SceneInfoTool(Tool):
             f"Scene {job.get('scene_id')}: use this scene_id to render it without sending it again.")
         yield self.create_json_message({"scene_id": job.get("scene_id"), "info": job.get("info"),
                                         "warnings": job.get("warnings") or []})
+        yield self.create_variable_message("scene_id", job.get("scene_id") or "")

@@ -103,7 +103,12 @@ def scene_fields(api: JanctionApi, p: dict[str, Any]) -> dict[str, Any]:
         if not name.lower().endswith(SCENE_SUFFIXES):
             raise ValueError(f"{name}: send a .blend, a Blender Python script (.py) or a 3D file "
                              f"({', '.join(SCENE_SUFFIXES[2:])})")
-        data = f.blob
+        try:
+            data = f.blob
+        except Exception as e:  # noqa: BLE001
+            raise ValueError(
+                f"Dify could not hand {name} to the plugin ({e}). On a self-hosted Dify, set FILES_URL and "
+                "INTERNAL_FILES_URL so plugins can read uploaded files, or pass the scene as scene_url.") from e
         if len(data) > MAX_UPLOAD:
             raise ValueError(f"{name} is {len(data) // (1024 * 1024)} MB; files up to 100 MB can be sent here. "
                              "For a larger scene, put it at an https link and pass it as scene_url.")
@@ -245,20 +250,35 @@ def invoke(tool: Tool, run: Callable[..., Generator[ToolInvokeMessage, None, Non
             api, _ = api_for(tool, renew=True)
             yield from run(api, p)
     except ApiError as e:
-        body = e.body
-        msg = f"JANCTION Render answered {e.status} {body.get('error', '')}: {body.get('detail', '')}".strip()
-        if body.get("checkout_url"):
-            msg += (f"\nThis needs {body.get('needed_yen')} JPY of credit (balance {body.get('balance_yen')} JPY). "
-                    f"The user can top up at {body['checkout_url']}; tell them the price first.")
-        yield tool.create_text_message(msg)
-        yield tool.create_json_message({"error": body, "status": e.status})
+        raise ToolError(error_text(e)) from None
     except (ValueError, requests.RequestException) as e:
-        yield tool.create_text_message(f"Error: {e}")
+        raise ToolError(f"JANCTION Render: {e}") from None
+
+
+class ToolError(Exception):
+    """Raised so Dify shows the failure: the workflow node fails and an agent gets the message."""
+
+
+def error_text(e: ApiError) -> str:
+    body = e.body
+    msg = f"JANCTION Render answered {e.status} {body.get('error', '')}: {body.get('detail', '')}".strip()
+    if body.get("checkout_url"):
+        msg += (f" This needs {body.get('needed_yen')} JPY of credit (balance {body.get('balance_yen')} JPY): the "
+                f"user can top up at {body['checkout_url']} (tell them the price first).")
+    if body.get("error") == "key_limit":
+        msg += (" The plugin could not get a free key automatically. Enter an API key in the plugin settings "
+                "(Tools > JANCTION Render > Authorize); one key is enough for the whole workspace.")
+    return msg
 
 
 def job_messages(tool: Tool, job: dict[str, Any], show_images: bool = True) -> Generator[ToolInvokeMessage, None, None]:
     yield tool.create_text_message(job_text(job))
     yield tool.create_json_message(job_summary(job))
+    # plain variables for workflows: {{#node.job_id#}}, {{#node.status#}} ...
+    first = next((a for a in job.get("artifacts") or [] if is_media(a.get("name", ""))), {})
+    for name, value in (("job_id", job.get("job_id")), ("status", job.get("status")), ("scene_id", job.get("scene_id")),
+                        ("result_url", first.get("view_url") or first.get("url"))):
+        yield tool.create_variable_message(name, value or "")
     if show_images and job.get("status") == "done":
         for a in job.get("artifacts") or []:
             if a.get("name", "").lower().endswith((".png", ".jpg", ".jpeg", ".webp", ".gif")) and a.get("view_url"):

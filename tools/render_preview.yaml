@@ -222,3 +222,26 @@ parameters:
 extra:
   python:
     source: tools/render_preview.py
+output_schema:
+  type: object
+  properties:
+    job_id:
+      type: string
+      label:
+        en_US: Job ID
+        zh_Hans: 任务 ID
+    status:
+      type: string
+      label:
+        en_US: Status
+        zh_Hans: 状态
+    scene_id:
+      type: string
+      label:
+        en_US: Scene ID
+        zh_Hans: 场景 ID
+    result_url:
+      type: string
+      label:
+        en_US: First result link
+        zh_Hans: 第一个结果链接
